@@ -16,8 +16,9 @@ const getAll = catchError(async(req, res) => {
 
 const create = catchError(async(req, res) => {
     
-    const {modelNameId,cantidad}=req.body
+    const {modelNameId,cantidad,color}=req.body
     const result = await Carrito.create({
+        color,
         modelNameId,
         cantidad,
         usuarioId:req.usuario.id

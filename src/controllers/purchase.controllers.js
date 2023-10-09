@@ -26,16 +26,7 @@ const create=catchError(async(req,res)=>{
         where:{usuarioId:req.usuario.id},
         raw:true
     })
-    const llavero=await Promise.all(
-        produt.map(async(compra)=>{
-            const llavero=await Carrito.findOne({
-                where:{productoId: compra.productoId},
-                attributes:['cantidad'],
-                include:[{model:Usuario,attributes:['name','numero']}],
-                raw: true
-            })
-        })
-    )
+   
     const compra=await Purchase.bulkCreate(produt)
     await Carrito.destroy({where:{usuarioId:req.usuario.id}})
     return res.status(201).json(compra)

@@ -1,8 +1,13 @@
 const catchError = require('../utils/catchError');
 const ImgColor = require('../models/ImgColor');
-
+const {Op}=require('sequelize')
 const getAll = catchError(async(req, res) => {
-    const results = await ImgColor.findAll();
+    const{url,color}=req.query
+    const where={}
+    if(color)where.color={[Op.iLike]:`%${color}%`}
+    const results = await ImgColor.findAll(
+        {where}
+    );
     return res.json(results);
 });
 
